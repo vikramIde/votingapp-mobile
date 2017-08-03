@@ -3,15 +3,15 @@
      <!-- Header -->
   <div slot="header" class="toolbar">
     <q-toolbar-title :padding="1">
-      Scan Stock (beta)
+      <img src="statics/logo.png" alt=""> <span>Stock <small style="font-size:12px;">(beta)</small></span>
     </q-toolbar-title>
   </div>
   <!-- Navigation Tabs -->
   <q-tabs slot="navigation">
-    <q-tab icon="alarm" route="/stockin" exact replace>In</q-tab>
-    <q-tab icon="alarm" route="/stockout" exact replace>Out</q-tab>
-    <q-tab icon="help" route="/help" exact replace>help</q-tab>
-    <q-tab icon="help" route="/sync" exact replace>sync</q-tab>
+    <q-tab route="/stockin" exact replace>In</q-tab>
+    <q-tab route="/stockout" exact replace>Out</q-tab>
+    <q-tab route="/help" exact replace>help</q-tab>
+    <q-tab route="/sync" exact replace>sync</q-tab>
   </q-tabs>
   <!-- IF USING subRoutes only: -->
   <!-- <router-view class="layout-view"></router-view> -->
@@ -31,8 +31,8 @@
 
 
   <!-- Footer -->
-  <div slot="footer" class="toolbar">
-    All right reserved Nano Corporatio 
+  <div slot="footer" class="toolbar" style="font-size:12px;text-aligh:center;">
+    <span style="font-size:12px;text-aligh:center;">All right reserved Nano Corporation</span>
   </div>
   </q-layout>
 </template>
