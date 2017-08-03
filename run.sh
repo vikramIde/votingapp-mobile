@@ -1,3 +1,3 @@
 #!/bin/bash
 
-quasar clean && quasar build && cd cordova && cordova run
+quasar clean && sudo quasar build && cd cordova && cordova run && cd ..

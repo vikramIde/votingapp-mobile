@@ -12,3 +12,4 @@ thumbs.db
 !.gitkeep
 .idea
 batch/
+run.sh

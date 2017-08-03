@@ -1,43 +1,64 @@
 <template>
-  <div>
+  <q-layout>
      <div slot="header" class="toolbar">
         <q-toolbar-title :padding="1">
-          Scan Stock (beta)
+            <div class="pull-left" style="margin-top: 7px;">
+              <img src="statics/logo.png" alt=""> <span>Stock <small style="font-size:12px;">(beta)</small></span>
+            </div>
+            <button class="pull-right" style="padding:0!important;">
+              <i>more_vert</i>
+              <q-popover ref="popover1">
+                <div class="list highlight" style="min-width: 150px; max-height: 500px;">
+                  <!-- <div class="item item-link one-lines item-delimiter" @click="" style="margin:0;">
+                    <div class="item-content">
+                      <i>autorenew</i> Sync
+                    </div>
+                  </div> -->
+                  <div class="item item-link one-lines item-delimiter" @click="openSpecialPosition(position)" style="margin:0;">
+                    <div class="item-content">
+                      <i>help_outline</i> Help
+                    </div>
+                  </div>
+                  <div class="item item-link one-lines item-delimiter" route="/login" style="margin:0;">
+                    <div class="item-content">
+                      <i>exit_to_app</i> Log out
+                    </div>
+                  </div>
+                </div>
+              </q-popover>
+            </button>
+
         </q-toolbar-title>
       </div>
       <!-- Navigation Tabs -->
-      <q-tabs slot="navigation">
-        <q-tab icon="alarm" route="/stockin" exact replace>In</q-tab>
-        <q-tab icon="alarm" route="/stockout" exact replace>Out</q-tab>
-        <q-tab icon="help" route="/help" exact replace>help</q-tab>
-        <q-tab icon="help" route="/sync" exact replace>sync</q-tab>
+      <q-tabs slot="navigation" class="stock_bl_hdr">
+        <q-tab route="/stockin" exact replace>In</q-tab>
+        <q-tab route="/stockout" exact replace>Out</q-tab>
+        <q-tab route="/sync" exact replace>sync</q-tab>
       </q-tabs>
 
-    <div class="layout-padding">
+    <div class="layout-padding scroll" style="width: 100%;padding-bottom: 70px;">
        <p class="caption">SKU</p>
-
       <blockquote v-if="!hasITEMS">
           <small>
             Please Click on the (+) button to scan the item.
           </small>
       </blockquote>
-      <div v-else class="list striped" >
-        <div class="item three-lines" v-if="item.direction == 'In' " v-for="(item, id) in itemsInStock">
+      <div v-else class="list striped" style="">
+        <div class="item three-lines mar" v-if="item.direction == 'In' " v-for="(item, id) in itemsInStock">
             
-            <div class="item-primary bg-primary text-white"><i>assignment</i></div>
+            <!-- <div class="item-primary bg-primary text-white"><i>assignment</i></div> -->
             <div class="item-content has-secondary">
-              <div>{{item.code}}</div>
-              <div>{{item.timeStamp}}</div>
+              <div style="width:100%;overflow:hidden;text-overflow:ellipsis;">{{item.code}}</div>
+              <div style="width:100%;overflow:hidden;text-overflow:ellipsis;">{{item.timeStamp}}</div>
             </div>
-            <div class="item-secondary stamp" style="color:green;font-weight:bold ">
+            <!-- <div class="item-secondary stamp" style="color:green;font-weight:bold ">
               {{item.direction}}
-            </div>
+            </div> -->
 
               <div class="item-secondary">
                 <i :ref="'target' + id">
                   more_horiz
-                
-
                 <q-popover :ref="'popover' + id">
                   <div class="list">
                     <div class="item item-link" @click="$refs['popover' + id][0].close(), editProduct(id)">
@@ -55,16 +76,31 @@
           </div>
         </div>
       </div>
-        <q-fab class=" absolute-bottom-right" classNames="primary" direction="up">
-         <q-small-fab class="absolute-bottom-right" @click.native="scanQR()" icon="phonelink_ring"></q-small-fab>
-        </q-fab>
-    </div>
+      <button type="button" class="btn_shadow primary circular absolute-bottom-right" @click="scanQR()" style="bottom:10px; right:10px;">
+        <i>add</i>
+      </button>
 
     <!-- Footer -->
-    <div slot="footer" class="toolbar">
-    All right reserved Nano Corporation .
+    <div slot="footer" class="toolbar" style="font-size:12px;text-aligh:center;">
+      <span style="font-size:12px;text-aligh:center;">All right reserved Nano Corporation</span>
     </div>
-  </div>
+
+    <!-- Help content Here -->
+    <q-modal ref="positionModal" :position="position" :content-css="{padding: '20px'}">
+        <p>Help</p>
+       <blockquote >
+            <small>
+              To scan new product please click on (In) tab and then (+) button on the bottom right corner
+            </small>
+        </blockquote>
+        <blockquote>
+          <small>
+              after scanning you can see the product Name and product code you can edit/delete them by clicking on the tripple on the right side of the item.
+            </small>
+        </blockquote>
+      <button class="primary" @click="$refs.positionModal.close()">Got it!</button>
+    </q-modal>
+  </q-layout>
 </template>
 
 <script>
@@ -119,6 +155,12 @@ export default {
   data(){
 
     return {
+      topdrop: [
+        {
+          ref: 'layoutModal'
+        }
+      ],
+      position: 'bottom',
       urls:false,
       itemsInStock:store.state,
       product:{
@@ -129,7 +171,14 @@ export default {
 
   },
   methods:{
+    openSpecialPosition (position){
+      this.postion = position
+      this.$nextTick(() => {
+        this.$refs.positionModal.open()
+      })
+    },
     scanQR () {
+      console.log('sss');
       let  that = this;
       cordova.plugins.barcodeScanner.scan( 
         function (result) {
@@ -145,6 +194,7 @@ export default {
             }
             
         },
+
         function (error) {
             alert("Scanning failed: " + error);
         },
@@ -278,4 +328,10 @@ export default {
 .logo
   position absolute
   transform-style preserve-3d
+.toolbar-title > div
+  padding 0
+.btn_shadow
+  box-shadow 1px 1px 4px #3c3939
+.mar
+  margin 0!important
 </style>
