@@ -44,18 +44,20 @@ function gotNoFileEntry()
 
 function uploadFile(dir) {
    var fileURL =dir.toURL();
-   var uri = encodeURI("https://bd865bfe.ngrok.io/upload/");//replace this code to your server code
+   var uri = encodeURI("http://stagingapp.shankar.uk.com/upload");//replace this code to your server code
    var options = new FileUploadOptions();
    options.fileKey = "file";
    options.fileName = fileURL.substr(fileURL.lastIndexOf('/')+1);
    options.mimeType = "text/plain";
    
    var headers = {'headerParam':'headerValue'};
-   options.headers = headers;
-   var ft = new FileTransfer();
-
-   console.log(ft);
-   ft.upload(fileURL, uri, onSuccess, onError, options);
+   // options.headers = headers;
+   
+    var ft = new FileTransfer();
+    var params = {};
+    var trustAllHosts = true;
+   // console.log(dir);
+   ft.upload(fileURL, uri, onSuccess, onError, options,trustAllHosts);
 
    function onSuccess(r) {
       console.log("Code = " + r.responseCode);
@@ -102,7 +104,7 @@ export default {
                           create: false,
                           exclusive: false
                       }, function(dir){
-                          console.log(dir.toURL())
+                          // console.log(dir.toURL())
                           uploadFile(dir);
                       }, gotNoFileEntry);
 
