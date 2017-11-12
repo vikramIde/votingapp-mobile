@@ -1,14 +1,12 @@
-# Stock Scanner App
+# Mobile Voting Daap
 
-> A Ncp project
+> A VAB project
 ## Table of Contents
 
 <!-- toc -->
 
 - [System Setup](#system-setup)
 - [Project Setup](#project-setup)
-- [Offline Mode explanation](#offline-mode-explanation)
-- [Use Case](#use-case)
 
 <!-- tocstop -->
 
@@ -42,48 +40,6 @@ $ quasar wrap cordova
 $ cd cordova
 $ cordova platform add android
 $ cordova run
-```
-## Offline Mode explanation
-
-So when you load the app first time , It will check in a folder called ```/batch``` , If file doesnt exist it takes you in the app .
-
-there are Three options
-
-### Checkin
-In this you can scan the product to checkin to your warehouse
-
-when a product is scanned it gets added to the file called ```product.json``` situated inside ```batch``` folder.
-
-the object looks like this 
-
-```
-{ 
-	name :'someRandomName'
-	code:'scannedbarcode',
-	timmeStamp:'you current time in YYYY DD MM HH:MM:SS',
-	direction:"In"
-}
-```
-
-### Checkout
-
-When you are sending the Product from your warehouse to customer, you can use checkout option to scan the products.
-
-The object Structure looks like this
-
-```
-{ 
-	name :'someRandomName'
-	code:'scannedbarcode',
-	timmeStamp:'you current time in YYYY DD MM HH:MM:SS',
-	direction:"Out"
-}
-```
-
-### Sync
-
-When you are done with scanning products you can use this option to push it to backend server.
-So when the file ```product.json``` is sent to server it will be delted for new batch.
 
 
 ## Use Case
