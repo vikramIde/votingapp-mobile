@@ -16,8 +16,14 @@
               <form action="#">
                 <div style="positive:relative;width:100%;">
                     <div class="floating-label">
-                      <input type="password" maxlength="4" required class="full-width login_pass" style="color:#fff;">
+                      <input v-model="adhaar" type="text" maxlength="4" required class="full-width login_pass" style="color:#fff;">
                       <label style="color:;">Adhaar number</label>
+                    </div>
+                    <div class="">
+                      <select v-model="selectedBallot">
+                        <option disabled value="">Please select one</option>
+                        <option v-for="(ballot, id) in ballotList">ballot.name</option>
+                      </select>
                     </div>
                     <div class="full-width" style="margin-top:30px;positive:absolute;bottom:0;">
                       <button class="light large full-width" style="background-color:#c35323"  @click = "login()">
@@ -53,21 +59,51 @@
     }
   </style>
 <script>
-// import store from './product-store'
-// import { Toast,Loading,Dialog } from 'quasar'
+import { Toast,Loading,Dialog ,LocalStorage} from 'quasar'
 import Router from 'router'
+import config from '../../config/appconfig.js'
 export default {
   mounted(){
+    this.getContractList()
+    console.log(config)
   },
   data () {
     return {
-        
+        adhaar:"",
+        ballotList:['Ballot1','Ballot2','Ballot3'],
+        selectedBallot:'',
+        serverBaseurl:'',
+        masterAdhaarid:'0987',
+        loginUrl:'',
+        contractlisturl:'',
+
     }
   },
   methods:{
+
     login(){
-      Router.replace({ path: 'Index' })
-    }
+              setTimeout(() => {
+                axios.post(config.BASE_URL+this.loginUrl,{'contractAddr':this.selectedballot.contractaddr,'adharNumber':adhaar}).then(res=>{
+                  LocalStorage.set('selectedBallot', this.selectedBallot)
+                   Router.replace({ path: 'Index' })
+                }).catch(e => {
+                  console.log(e)
+                })
+              }, 2000)
+
+             
+        },
+    getContractList(){
+          
+                axios.post(config.BASE_URL+this.contractlisturl,{'adharNumber':this.masterAdhaarid})
+                axios.get(config.BASE_URL+this.contractlisturl).then(res=>{
+                  this.ballotList = JSON.parse(res.message)
+                  LocalStorage.set('ballotList', this.state)
+                }).catch(e => {
+                  console.log(e)
+                })
+
+            }
   }
   
 }

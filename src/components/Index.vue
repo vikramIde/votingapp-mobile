@@ -81,14 +81,14 @@
 
 </style>
 <script>
-import { Dialog, Toast } from 'quasar'
+import { Dialog, Toast,LocalStorage } from 'quasar'
 // import store from './product-store'
-
+import config from '../../config/appconfig.js'
 
 
 export default {
   mounted(){
-    // console.log(appconfig);
+      this.getPartylist()
   },
   data(){
 
@@ -134,6 +134,17 @@ export default {
     },
     vote(index){
       this.partyList=[]
+    },
+    getPartylist(){
+      contractaddr
+      let selectedballot = LocalStorage.get.item('selectedBallot') || {}
+
+      axios.post(config.BASE_URL+this.partyListUrl,{'contractaddr':selectedballot.contractaddr}).then(res=>{
+        this.partyList = JSON.parse(res.message)
+      }).catch(e => {
+        console.log(e)
+      })
+      
     }
 
   },

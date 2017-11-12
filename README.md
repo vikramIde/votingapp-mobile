@@ -42,13 +42,6 @@ $ cordova platform add android
 $ cordova run
 
 
-## Use Case
-
-The major use case could be Remote Warehouses facilities where internet is not good.
-So you can finish the stock scan and sync the data on a later point of time when in network
-
-So example of offline mode workflow.
-
 
 
 
