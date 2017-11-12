@@ -105,6 +105,7 @@ export default {
         name:'',
         id:''
       },
+      partyListUrl:'parties-list'
     }
 
   },

@@ -74,8 +74,8 @@ export default {
         selectedBallot:'',
         serverBaseurl:'',
         masterAdhaarid:'0987',
-        loginUrl:'',
-        contractlisturl:'',
+        loginUrl:'validate-voter',
+        contractlisturl:'ballot-list',
 
     }
   },
