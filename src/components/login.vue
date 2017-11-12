@@ -1,11 +1,13 @@
 <template>
 <q-layout>
   <div class="error-page window-height window-width column items-center custom_login">  
-    <div class="items-center justify-center" style="height:100%;width:100%;padding:50px; background-image:url('statics/log_bg.png');background-color: #027be3 !important;background-size:cover;" >
-      <div class="content_main" style="position:absolute; top:30%;left:40px;right:40px;">
+    <div class="items-center justify-center" style="height:100%;width:100%;padding:50px; background-color: #f3f3f4 !important;background-size:cover;" >
+      <div class="content_main" style="position:absolute; top:20%;left:40px;right:40px;">
         <div class="row">
-          <div class="width-1of1" style="text-align:center;margin-bottom: 20px;margin-top: 20px;">
-            <img src="statics/logo.png" alt="">
+          <div class="width-1of1" style="text-align:center;margin-top: 20px; color:#000">
+           <img src="statics/bgm_logo.png" alt="" style="width:100px">
+           <br>
+           <strong>E-Voting</strong>
           </div>
         </div>
         <div style="clear:both;"></div>
@@ -15,10 +17,10 @@
                 <div style="positive:relative;width:100%;">
                     <div class="floating-label">
                       <input type="password" maxlength="4" required class="full-width login_pass" style="color:#fff;">
-                      <label style="color:#fff;">Enter your 4 digit password here</label>
+                      <label style="color:;">Adhaar number</label>
                     </div>
                     <div class="full-width" style="margin-top:30px;positive:absolute;bottom:0;">
-                      <button class="light large full-width" @click = "login()">
+                      <button class="light large full-width" style="background-color:#c35323"  @click = "login()">
                         LOGIN
                       </button>
                     </div>
@@ -64,7 +66,7 @@ export default {
   },
   methods:{
     login(){
-      Router.replace({ path: 'home' })
+      Router.replace({ path: 'Index' })
     }
   }
   
