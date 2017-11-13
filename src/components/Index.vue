@@ -44,7 +44,7 @@
           <div v-for="(party, id) in partyList">
 
             <div class="item" >
-              <div class="item-content as-secondary">{{party.name}}</div>
+              <div class="item-content as-secondary">{{party}}</div>
               <div class="item-secondary " >
                 <button class="primary push small" @click="confirmVote(id)" style="margin-left: -19px;">Vote</button>
               </div>
@@ -112,7 +112,7 @@ export default {
       })
     },
     confirmVote(index){
-      let partyname = this.partyList[index].name
+      let partyname = this.partyList[index]
       let that = this
       Dialog.create({
         title: 'Vote for '+partyname+'?',
@@ -122,14 +122,25 @@ export default {
           {
             label: 'Yes',
             handler () {
-              that.vote()
+              that.vote(index)
             }
           }
         ]
       })
     },
     vote(index){
-      this.partyList=[]
+      
+      //contractaddr,
+      //partyid
+      console.log(index);
+      let selectedballot = LocalStorage.get.item('selectedBallot') || {}
+      let url =this.serverBaseurl + 'vote'; 
+      console.log(url);
+            axios.post(url,{'contractaddr':selectedballot, partyid : index}).then(res=>{
+            this.partyList=[];
+        }).catch(e => {
+          console.log(e)
+        })
     },
     getPartylist(){
       
@@ -137,7 +148,8 @@ export default {
 
       axios.post(this.serverBaseurl+this.partyListUrl,{'contractaddr':selectedballot}).then(res=>{
         console.log(res.data.message)
-        this.partyList = JSON.parse(res.message)
+        debugger;
+        this.partyList = JSON.parse(res.data.tran);
       }).catch(e => {
         console.log(e)
       })
