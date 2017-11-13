@@ -41,20 +41,17 @@
           </small>
       </blockquote>
       <div v-else class="list " style="">
-            
-              <div v-for="(party, id) in partyList">
+          <div v-for="(party, id) in partyList">
 
-                <div class="item" >
-                  <div class="item-content as-secondary">{{party.name}}</div>
-                  <div class="item-secondary " >
-                    <button class="primary push small" @click="confirmVote(id)" style="margin-left: -19px;">Vote</button>
-                  </div>
-                  
-                </div>
-
+            <div class="item" >
+              <div class="item-content as-secondary">{{party.name}}</div>
+              <div class="item-secondary " >
+                <button class="primary push small" @click="confirmVote(id)" style="margin-left: -19px;">Vote</button>
               </div>
               
-          
+            </div>
+
+          </div>
         </div>
       </div>
 
@@ -66,7 +63,7 @@
     <!-- Help content Here -->
     <q-modal ref="positionModal" :position="position" :content-css="{padding: '20px'}">
         <p>Help</p>
-       <blockquote >
+        <blockquote >
             <small>
               To vote click on the list you wanna click.
             </small>
@@ -76,10 +73,7 @@
     </q-modal>
   </q-layout>
 </template>
-<style>
 
-
-</style>
 <script>
 import { Dialog, Toast,LocalStorage } from 'quasar'
 // import store from './product-store'
@@ -105,7 +99,8 @@ export default {
         name:'',
         id:''
       },
-      partyListUrl:'parties-list'
+      partyListUrl:'parties-list',
+      serverBaseurl:'http://localhost:3000/api/',
     }
 
   },
@@ -137,10 +132,11 @@ export default {
       this.partyList=[]
     },
     getPartylist(){
-      contractaddr
+      
       let selectedballot = LocalStorage.get.item('selectedBallot') || {}
 
-      axios.post(config.BASE_URL+this.partyListUrl,{'contractaddr':selectedballot.contractaddr}).then(res=>{
+      axios.post(this.serverBaseurl+this.partyListUrl,{'contractaddr':selectedballot}).then(res=>{
+        console.log(res.data.message)
         this.partyList = JSON.parse(res.message)
       }).catch(e => {
         console.log(e)
