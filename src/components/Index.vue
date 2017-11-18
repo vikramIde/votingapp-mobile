@@ -148,7 +148,7 @@ export default {
 
       axios.post(this.serverBaseurl+this.partyListUrl,{'contractaddr':selectedballot}).then(res=>{
         console.log(res.data.message)
-        debugger;
+        //debugger;
         this.partyList = JSON.parse(res.data.tran);
       }).catch(e => {
         console.log(e)

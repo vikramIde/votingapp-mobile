@@ -84,22 +84,42 @@ export default {
     }
   },
   methods:{
-
     login(){
-      debugger;
+      //debugger;
       console.log(this.serverBaseurl+this.loginUrl);
-
-console.log(this.selectedballot);
-console.log(this.adhaar);
- axios.post(this.serverBaseurl+this.loginUrl,{'contractAddr':this.selectedballot,'adharNumber':this.adhaar}).then(res=>{
-                  LocalStorage.set('selectedBallot', this.selectedBallot)
-                   Router.replace({ path: 'Index' })
-                }).catch(e => {
-                  console.log(e)
-                })
-             
-        },
+      console.log(this.selectedBallot);
+      console.log(this.adhaar);
+      if(typeof this.adhaar != 'undefined' && typeof this.selectedBallot != 'undefined'){
+        let url = this.serverBaseurl+this.loginUrl;
+        let data = {
+          "contractaddr" : this.selectedBallot,
+          "adharNumber" : this.adhaar
+        };
+        axios.post(url,data)
+        .then(res=>{
+          //debugger;
+          if(typeof res != 'undefined' && typeof res.data != 'undefined' && res.data.status  == "Success"){
+            if(res.data.tran == "true"){
+              LocalStorage.set('selectedBallot', this.selectedBallot)
+              Router.replace({ path: 'Index' })
+            }else{
+              alert("Either voter is not present in voterlist or already voted!");
+            }
+          }else{
+            alert("Error ocurred!");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });    
+      }else{
+        console.log(this.serverBaseurl+this.loginUrl);
+        console.log(this.selectedBallot);
+        console.log(this.adhaar);
+      }
+     },
     getContractList(){
+      //debugger;
                 console.log(config.BASE_URL)
                 console.log( 'Adhaar :' +  this.masterAdhaarid);
                 let url = this.serverBaseurl+this.contractlisturl;
